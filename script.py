@@ -1,7 +1,7 @@
 import csv, codecs
 import simplejson as json
 
-arquivo = codecs.open('raw/201307_Transferencias.csv', 'rU')
+arquivo = codecs.open('raw/merge.csv', 'rU')
 reader = csv.DictReader((line.replace('\0','') for line in arquivo), delimiter='\t')
 
 def clean(numero):
