@@ -49,6 +49,12 @@
                             setting[side]['valor'] = data[setting[side]['funcao']][choice]; 
                         }
                         console.log(setting);
+                        setting['sidea']['proporcao'] = 'menos';
+                        setting['sidea']['razao'] = Math.round(setting['sideb']['valor']/setting['sidea']['valor']);
+                        if (setting['sidea']['valor'] > setting['sideb']['valor']) {
+                            setting['sidea']['proporcao'] = 'mais';
+                            setting['sidea']['razao'] = Math.round(setting['sidea']['valor']/setting['sideb']['valor']);
+                        }
                         r.render(setting);
                     });
             }
@@ -60,6 +66,15 @@
         </script>
 
         <style>
+            .lambe {
+                width:320px;
+                height:320;
+                background-color:#8FD8D8;
+                color:#FFF;
+                border:5px solid black;
+                padding:10px;
+                font-size:0.8em;
+            }
             #woo {
                 clear:both;
                 margin:50px;
@@ -106,10 +121,9 @@
                 <div class="sideb">
                 </div>
             </div>
-            <div id="woo">
+            <div id="woo" class='lambe'>
                 <h2 data-template>
-                    A {{sidea.funcao}} do {{sidea.estado}} recebeu <b>{{sidea.valor}}</b> reais (x vezes<br />
-                    menos) que a {{sideb.funcao}} do {{sideb.estado}} que recebeu <b>{{sideb.valor}}</b> reais.
+                    Em 2012, a Secretaria de {{sidea.funcao}} do {{sidea.estado}} recebeu <b>{{sidea.razao}}</b> vezes {{sidea.proporcao}} do que a de {{sideb.funcao}} do {{sideb.estado}}.
                 </h2>
             </div>
 		</div>
