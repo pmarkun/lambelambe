@@ -1,0 +1,86 @@
+/* Stencil */
+.stencil {
+    font-size: 1.3em;
+    font-family: 'Stencil';
+}
+
+.lambe {
+    background-color: #fff;
+    height:600px;
+    width:400px;
+    color:#000;
+    border:5px solid black;
+    padding:10px;
+}
+
+.texto {
+    margin:20px;
+    font-size:1.9em;
+}
+
+.grafico {
+    margin:3px;
+    margin-top:30px;
+    height:280px;
+    clear:both;
+}
+
+.legenda {
+    width:175px;
+    padding-top:5px;
+    font-size: 1.2em;
+    clear:both;
+}
+.a {
+    color:orange;
+}
+.grafico .a {
+    width:50%;
+    float:left;
+}
+.a div.square {
+    background-color: orange;
+}
+
+.b {
+    color:red;
+}
+.grafico .b {
+    width:50%;
+    float:right;
+}
+.b div.legenda {
+    text-align: right;
+}
+.b div.square {
+    background-color: red;
+    float:right;
+}
+
+.footer {
+    font-family: 'Legenda';
+    padding-left:5px;
+    clear:both;
+    text-align: center;
+    font-size:0.9em;
+    background-color:#000;
+    color:#fff;
+}
+.footer h2 {
+    text-align:left;
+}
+
+/* Ground Control */
+.ground_control {
+    position:absolute;
+    top:0;
+    right:0;
+    margin:20px;
+    width:250px;
+    height:250px;
+    border:1px solid black;
+}
+
+.ground_control h2 {
+    padding:10px;
+}

@@ -1,5 +1,5 @@
 <!doctype html>
-<title>Hello from Flask</title>
+<title>Lambe Lambe da Transparência</title>
 <style>
 @font-face {
     font-family: 'Stencil';
@@ -8,100 +8,104 @@
     font-weight: normal;
     font-style: normal;
 }
-</style>
-<style>
-            .container {
-            }
-            .stencil {
-                font-size: 1.3em;
-                font-family: 'Stencil';
-            }
-            
-            .lambe {
-                background-color: #fff;
-                height:600px;
-                width:400px;
-                color:#000;
-                border:5px solid black;
-                padding:10px;
-            }
-            
-            .texto {
-                margin:25px;
-                font-size:1.9em;
-            }
-            
-            .grafico {
-                margin:25px;
-                margin-top:30px;
-                height:300px;
-                clear:both;
-            }
-            
-            .legenda {
-                padding-top:5px;
-                font-size: 1.2em;
-            }
-            .a {
-                color:orange;
-            }
-            .grafico .a {
-                width:50%;
-                float:left;
-            }
-            .a div.square {
-                background-color: orange;
-            }
-            
-            .b {
-                color:red;
-            }
-            .grafico .b {
-                width:50%;
-                float:right;
-            }
-            .b div.square {
-                background-color: red;
-            }
-            
-            .footer {
-                font-family:Helvetica;
-                margin:20px;
-                clear:both;
-                text-align: center;
-                font-size:0.7em;
-            }
-</style>
 
+@font-face {
+    font-family: 'Legenda';
+    src: url('{{ url_for('static', filename='fonts/steelfish_eb.eot') }}');
+    src: url('{{ url_for('static', filename='fonts/steelfish_eb.svg') }}') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+</style>
+<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+<script src="{{ url_for('static', filename='vendor/jquery.min.js') }}"></script>
+
+<script>
+
+var loadEstados = function(id, pre) {
+    var select = $("#"+id);
+    var estados = ["AC","AL","AM","AP","BA","CE","DF","ES","EX","GO","MA","MG","MS","MT","PA","PB","PE","PI","PR","RJ","RN","RO","RR","RS","SC","SE","SP","TO"];
+
+    select.empty();
+    $.each(estados, function (index,estado) {
+        select.append("<option value='"+estado+"'>"+estado+"</option>");
+    });
+    select.click(function (i) {
+        loadFuncoes('funcao_a', select.val());
+        loadFuncoes('funcao_b', select.val());
+    });
+    $("#"+id+" option[value='"+pre+"']").prop('selected', true);
+};
+
+var loadFuncoes = function(id, estado, pre) {
+    var select = $("#"+id);
+    select.empty();
+    $.getJSON("{{ url_for('static', filename='transparencia.json') }}", function (data) {
+        $.each(data, function(funcao, estados) {
+            if (estado in estados) {
+                select.append("<option value='"+funcao+"'>"+funcao+"</option>")
+            }
+        });
+    $("#"+id+" option[value='"+pre+"']").prop('selected', true);
+    });
+}
+$(document).ready(function () {
+    var url = window.location.href.split('/');
+    loadEstados("estado_a", decodeURIComponent(url[5]));
+    loadFuncoes('funcao_a', $("#estado_a").val(), decodeURIComponent(url[4]));
+    loadFuncoes('funcao_b', $("#estado_a").val(), decodeURIComponent(url[6]));
+    $("#enviar").click(function (evt) {
+        evt.preventDefault(evt);
+        var a = $("#funcao_a").val();
+        var b = $("#funcao_b").val();
+        var uf = $("#estado_a").val();
+        window.location.href = "/l/"+a+"/"+uf+"/"+b+"/"+uf+"/raw";
+    })
+});
+
+</script>
 
 <div class="container">
     <div class='lambe'>
         <div class="texto stencil">
-            Em 2012, a Secretaria de <span class="a">{{l.a.orgao}}</span> do {{l.a.estado}} recebeu <b>{{l.razao}}</b> vezes {{l.  proporcao}} do que a de <span class="b">{{l.b.orgao}}</span>{% if l.a.estado != l.b.estado %} de {{l.b.estado}} {% endif %}.
+            Em 2012, a Secretaria de <span class="a">{{l.a.orgao}}</span> {{l.a.estado|preposicao}} {{l.a.estado}} recebeu <b>{{l.razao}}</b> vezes {{l.  proporcao}} do que a de <span class="b">{{l.b.orgao}}</span>{% if l.a.estado != l.b.estado %} {{l.b.estado|preposicao}} {{l.b.estado}} {% endif %}.
         </div>
          <div class="grafico">
             {% if l.a.valor > l.b.valor %}
                 <div class="a">
-                    <div class="square" style="width:200px;height:200px;"></div>
-                    <div class="legenda stencil">R$ {{l.a.valor}}</div>
+                    <div class="square" style="width:195px;height:195px;"></div>
+                    <div class="legenda stencil">R$ {{l.a.valor|medida}}</div>
                 </div>
                 <div class="b">
-                    <div class="square" style="width:{{(200/l.razao)|int}}px;height:{{(200/l.razao)|int}}px;margin-top:{{200-(200/l.razao)}}px"></div>
-                    <div class="legenda stencil">R$ {{l.b.valor}}</div>
+                    <div class="square" style="width:{{(195/l.razao)|int}}px;height:{{(195/l.razao)|int}}px;margin-top:{{195-(195/l.razao)}}px"></div>
+                    <div class="legenda stencil">R$ {{l.b.valor|medida}}</div>
                 </div>
             {% else %}
                 <div class="a">
-                    <div class="square" style="width:{{(200/l.razao)|int}}px;height:{{(200/l.razao)|int}}px;margin-top:{{200-(200/l.razao)}}px"></div>
-                    <div class="legenda stencil">R$ {{l.a.valor}}</div>
+                    <div class="square" style="width:{{(195/l.razao)|int}}px;height:{{(195/l.razao)|int}}px;margin-top:{{195-(195/l.razao)}}px"></div>
+                    <div class="legenda stencil">R$ {{l.a.valor|medida}}</div>
                 </div>
                 <div class="b">
-                    <div class="square" style="width:200px;height:200px;"></div>
-                    <div class="legenda stencil">R$ {{l.b.valor}}</div>
+                    <div class="square" style="width:195px;height:195px;"></div>
+                    <div class="legenda stencil">R$ {{l.b.valor|medida}}</div>
                 </div>
             {% endif %} 
         </div>
         <div class="footer">
-            <h2>Fonte: Dados do Portal da Transparência<br />www.portaldatransparencia.gov.br</h2>
+            <h2>Fonte:<br /> Dados do Portal da Transparência<br />www.portaldatransparencia.gov.br</h2>
         </div>
+    </div>
+
+    <div class="ground_control">
+        <h2>Ground Control</h2>
+        <form>
+            <select id="estado_a">
+            </select>
+            <select id="funcao_a">
+            </select>
+            <select id="funcao_b">
+            </select>
+            <button id="enviar">Go!</button>
+        </form>
     </div>
 </div>
