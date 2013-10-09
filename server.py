@@ -46,8 +46,7 @@ def longo(estado):
         "SP": "São Paulo",
         "TO": "Tocantins"
     }
-
-    return estados[estado]
+    return estados[estado].decode('utf-8')
 @app.template_filter('preposicao')
 def preposicao(texto):
     do = ['AM','AC','AP','CE','DF','ES','EX','MA','MS','MT','PA','PI','PR','RJ','RN','RS','TO']
