@@ -1,0 +1,107 @@
+<!doctype html>
+<title>Hello from Flask</title>
+<style>
+@font-face {
+    font-family: 'Stencil';
+    src: url('{{ url_for('static', filename='fonts/major_shift-webfont.eot') }}');
+    src: url('{{ url_for('static', filename='fonts/major_shift-webfont.svg') }}') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+</style>
+<style>
+            .container {
+            }
+            .stencil {
+                font-size: 1.3em;
+                font-family: 'Stencil';
+            }
+            
+            .lambe {
+                background-color: #fff;
+                height:600px;
+                width:400px;
+                color:#000;
+                border:5px solid black;
+                padding:10px;
+            }
+            
+            .texto {
+                margin:25px;
+                font-size:1.9em;
+            }
+            
+            .grafico {
+                margin:25px;
+                margin-top:30px;
+                height:300px;
+                clear:both;
+            }
+            
+            .legenda {
+                padding-top:5px;
+                font-size: 1.2em;
+            }
+            .a {
+                color:orange;
+            }
+            .grafico .a {
+                width:50%;
+                float:left;
+            }
+            .a div.square {
+                background-color: orange;
+            }
+            
+            .b {
+                color:red;
+            }
+            .grafico .b {
+                width:50%;
+                float:right;
+            }
+            .b div.square {
+                background-color: red;
+            }
+            
+            .footer {
+                font-family:Helvetica;
+                margin:20px;
+                clear:both;
+                text-align: center;
+                font-size:0.7em;
+            }
+</style>
+
+
+<div class="container">
+    <div class='lambe'>
+        <div class="texto stencil">
+            Em 2012, a Secretaria de <span class="a">{{l.a.orgao}}</span> do {{l.a.estado}} recebeu <b>{{l.razao}}</b> vezes {{l.  proporcao}} do que a de <span class="b">{{l.b.orgao}}</span>{% if l.a.estado != l.b.estado %} de {{l.b.estado}} {% endif %}.
+        </div>
+         <div class="grafico">
+            {% if l.a.valor > l.b.valor %}
+                <div class="a">
+                    <div class="square" style="width:200px;height:200px;"></div>
+                    <div class="legenda stencil">R$ {{l.a.valor}}</div>
+                </div>
+                <div class="b">
+                    <div class="square" style="width:{{(200/l.razao)|int}}px;height:{{(200/l.razao)|int}}px;margin-top:{{200-(200/l.razao)}}px"></div>
+                    <div class="legenda stencil">R$ {{l.b.valor}}</div>
+                </div>
+            {% else %}
+                <div class="a">
+                    <div class="square" style="width:{{(200/l.razao)|int}}px;height:{{(200/l.razao)|int}}px;margin-top:{{200-(200/l.razao)}}px"></div>
+                    <div class="legenda stencil">R$ {{l.a.valor}}</div>
+                </div>
+                <div class="b">
+                    <div class="square" style="width:200px;height:200px;"></div>
+                    <div class="legenda stencil">R$ {{l.b.valor}}</div>
+                </div>
+            {% endif %} 
+        </div>
+        <div class="footer">
+            <h2>Fonte: Dados do Portal da Transparência<br />www.portaldatransparencia.gov.br</h2>
+        </div>
+    </div>
+</div>

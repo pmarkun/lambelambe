@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import json
 
 app = Flask(__name__)
@@ -9,6 +9,7 @@ lambes = json.loads(open('transparencia.json', 'r').read())
 def index():
     return 'Hello World!'
 
+@app.route('/l/<orgao_a>/<estado_a>/<orgao_b>/<estado_b>')
 @app.route('/l/<orgao_a>/<estado_a>/<orgao_b>/<estado_b>/<raw>')
 def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
     l = {
@@ -31,10 +32,10 @@ def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
         l['proporcao'] = 'mais'
         l['razao'] = round(l['a']['valor']/l['b']['valor'],1)
     
-    if raw=='raw':
-        return str(l['razao'])
+    if raw:
+        return render_template('lambe.html', l=l)
     else:
-        return 'Hello'
+        return render_template('lambe.html', l=l)
 
 if __name__ == "__main__":
     app.run(debug=True)
