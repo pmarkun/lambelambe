@@ -8,8 +8,42 @@ lambes = json.loads(open('transparencia.json', 'r').read())
 
 @app.route('/')
 def index():
-    return 'Hello World!'
+    return render_template('lambe.html');
 
+@app.template_filter('longo')
+def longo(estado):
+    estados = {
+        "AC": "Acre",
+        "AL": "Alagoas",
+        "AM": "Amazonas",
+        "AP": "Amapa",
+        "BA": "Bahia",
+        "CE": "Ceara",
+        "DF": "Distrito Federal",
+        "ES": "Espírito Santo",
+        "EX": "EX",
+        "GO": "Goias",
+        "MA": "Maranhão",
+        "MG": "Minas Gerais",
+        "MS": "Mato Grosso do Sul",
+        "MT": "Mato Grosso",
+        "PA": "Pará",
+        "PB": "Paraiba",
+        "PE": "Pernambuco",
+        "PI": "Piaui",
+        "PR": "Paraná",
+        "RJ": "Rio de Janeiro",
+        "RN": "Rio Grande do Norte",
+        "RO": "Rondônia",
+        "RR": "Roraima",
+        "RS": "Rio Grande do Sul",
+        "SC": "Santa Catarina",
+        "SE": "Sergipe",
+        "SP": "São Paulo",
+        "TO": "Tocantins"
+    }
+
+    return estados[estado]
 @app.template_filter('preposicao')
 def preposicao(texto):
     do = ['AC','AP','CE','DF','ES','EX','MA','MS','MT','PA','PI','PR','RJ','RN','RS','TO']
@@ -17,11 +51,11 @@ def preposicao(texto):
     da = ['BA','PB']
 
     if texto in do:
-        return 'do'
+        return 'no'
     if texto in da:
-        return 'da'
+        return 'na'
     if texto in de:
-        return 'de'
+        return 'em'
 
 @app.template_filter('medida')
 def medida(valor):

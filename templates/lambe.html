@@ -66,9 +66,10 @@ $(document).ready(function () {
 </script>
 
 <div class="container">
+    {% if l %}
     <div class='lambe'>
         <div class="texto stencil">
-            Em 2012, a Secretaria de <span class="a">{{l.a.orgao}}</span> {{l.a.estado|preposicao}} {{l.a.estado}} recebeu <b>{{l.razao}}</b> vezes {{l.  proporcao}} do que a de <span class="b">{{l.b.orgao}}</span>{% if l.a.estado != l.b.estado %} {{l.b.estado|preposicao}} {{l.b.estado}} {% endif %}.
+            {{l.a.estado|preposicao}} {{l.a.estado|longo}}, em 2012, <span class="a">{{l.a.orgao}}</span> recebeu do Governo Federal <b>{{l.razao}}</b> vezes {{l.  proporcao}} do que <span class="b">{{l.b.orgao}}</span>{% if l.a.estado != l.b.estado %} {{l.b.estado|preposicao}} {{l.b.estado}} {% endif %}.
         </div>
          <div class="grafico">
             {% if l.a.valor > l.b.valor %}
@@ -95,7 +96,7 @@ $(document).ready(function () {
             <h2>Fonte:<br /> Dados do Portal da Transparência<br />www.portaldatransparencia.gov.br</h2>
         </div>
     </div>
-
+    {% endif %}
     <div class="ground_control">
         <h2>Ground Control</h2>
         <form>
