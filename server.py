@@ -105,4 +105,4 @@ def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
         return render_template('lambe.html', l=l)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
