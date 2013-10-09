@@ -78,12 +78,12 @@ $(document).ready(function () {
                     <div class="legenda stencil">R$ {{l.a.valor|medida}}</div>
                 </div>
                 <div class="b">
-                    <div class="square" style="width:{{(195/l.razao)|int}}px;height:{{(195/l.razao)|int}}px;margin-top:{{195-(195/l.razao)}}px"></div>
+                    <div class="square" style="width:{{(195*195/l.razao)|square}}px;height:{{(195*195/l.razao)|square}}px;margin-top:{{195-(195*195/l.razao)|square}}px"></div>
                     <div class="legenda stencil">R$ {{l.b.valor|medida}}</div>
                 </div>
             {% else %}
                 <div class="a">
-                    <div class="square" style="width:{{(195/l.razao)|int}}px;height:{{(195/l.razao)|int}}px;margin-top:{{195-(195/l.razao)}}px"></div>
+                    <div class="square" style="width:{{(195*195/l.razao_g)|square}}px;height:{{(195*195/l.razao_g)|square}}px;margin-top:{{195-(195*195/l.razao_g)|square}}px"></div>
                     <div class="legenda stencil">R$ {{l.a.valor|medida}}</div>
                 </div>
                 <div class="b">

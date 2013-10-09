@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template
-import json
+import json, math
 
 app = Flask(__name__)
 #tmp-load
@@ -9,6 +9,10 @@ lambes = json.loads(open('transparencia.json', 'r').read())
 @app.route('/')
 def index():
     return render_template('lambe.html');
+
+@app.template_filter('square')
+def square(n):
+    return int(math.sqrt(n))
 
 @app.template_filter('longo')
 def longo(estado):
@@ -46,7 +50,7 @@ def longo(estado):
     return estados[estado]
 @app.template_filter('preposicao')
 def preposicao(texto):
-    do = ['AC','AP','CE','DF','ES','EX','MA','MS','MT','PA','PI','PR','RJ','RN','RS','TO']
+    do = ['AM','AC','AP','CE','DF','ES','EX','MA','MS','MT','PA','PI','PR','RJ','RN','RS','TO']
     de = ['AL','GO','MG','PE','RO','RR','SC','SP']
     da = ['BA','PB']
 
@@ -92,9 +96,11 @@ def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
         }
     }
 
-    if l['a']['valor'] < l['b']['valor']:
+    if l['a']['valor'] <= l['b']['valor']:
         l['proporcao'] = 'menos'
-        l['razao'] = round(l['b']['valor']/l['a']['valor'],1)
+        #hackish?
+        l['razao'] = round((l['b']['valor']-l['a']['valor'])/l['a']['valor'],1)
+        l['razao_g'] = round(l['b']['valor']/l['a']['valor'],1)
     else:
         l['proporcao'] = 'mais'
         l['razao'] = round(l['a']['valor']/l['b']['valor'],1)
