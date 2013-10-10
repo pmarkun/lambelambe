@@ -116,7 +116,7 @@ $(document).ready(function () {
             <button id="enviar">Gerar Lambe</button>
         </form>
         <hr />
-        {% if l.image %}
+        {% if l and l.image %}
         Baixe:
         <a href="{{url_for('static', filename='raw/'+l.image+'-a3.pdf')}}">a3</a> <a href="{{url_for('static', filename='raw/'+l.image+'-a4.pdf')}}">a4</a> <a href="{{url_for('static', filename='raw/'+l.image+'-hi.png')}}">png</a>
         <br />
