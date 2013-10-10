@@ -1,10 +1,47 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template
-import json, math
+import json, math, os, subprocess
+import threading, subprocess
+from urllib2 import quote
 
 app = Flask(__name__)
 #tmp-load
 lambes = json.loads(open('transparencia.json', 'r').read())
+
+
+class RunCmd(threading.Thread):
+    def __init__(self, cmd, timeout):
+        threading.Thread.__init__(self)
+        self.cmd = cmd
+        self.timeout = timeout
+
+    def run(self):
+        self.p = subprocess.Popen(self.cmd)
+        self.p.wait()
+
+    def Run(self):
+        self.start()
+        self.join(self.timeout)
+
+        if self.is_alive():
+            self.p.terminate()
+            self.join()
+
+
+
+def generate_image(l, timeout):
+    if l['a']['valor'] <= l['b']['valor']:
+        image_path = '-'.join([l['b']['orgao'],l['b']['estado'],l['a']['orgao'],l['a']['estado']])
+        image_url = '/'.join([l['b']['orgao'],l['b']['estado'],l['a']['orgao'],l['a']['estado']])
+    else:
+        image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
+        image_url = '/'.join([l['b']['orgao'],l['b']['estado'],l['a']['orgao'],l['a']['estado']])
+
+    image_url = quote(image_url.encode('utf-8'))
+    url = ('http://127.0.0.1:5000'  + '/l/' + image_url + '').encode('utf-8')
+    RunCmd(['phantomjs', 'scripts/rasterize.js', url, '.lambe', 'static/raw/' + image_path + '-hi.png'], timeout).Run()
+    RunCmd(['phantomjs','scripts/rasterize.js', url, '.lambe', 'static/raw/' + image_path + '-a3.pdf'], timeout).Run()
+    return image_path + '-hi.png'
 
 @app.route('/')
 def index():
@@ -100,14 +137,20 @@ def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
         #hackish?
         l['razao'] = round((l['b']['valor']-l['a']['valor'])/l['a']['valor'],1)
         l['razao_g'] = round(l['b']['valor']/l['a']['valor'],1)
+        image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
     else:
         l['proporcao'] = 'mais'
         l['razao'] = round(l['a']['valor']/l['b']['valor'],1)
+        image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
     
-    if raw:
-        return render_template('lambe.html', l=l)
+    if os.path.isfile('static/raw/' + image_path+'-hi.png'):
+        l['image'] = image_path
     else:
-        return render_template('lambe.html', l=l)
+        #pass
+        t = threading.Thread(target=generate_image, args=(l, 10))
+        t.start()
+        #generate_image(l, 10)
+    return render_template('lambe.html', l=l)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
