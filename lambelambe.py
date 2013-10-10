@@ -4,6 +4,7 @@ import json, math, os, subprocess
 import threading, subprocess
 from urllib2 import quote, unquote
 from unidecode import unidecode
+from settings import *
 
 here = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
@@ -36,9 +37,10 @@ def generate_image(l, timeout):
     image_url = '/'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
 
     image_url = quote(image_url.encode('utf-8'))
-    url = ('http://127.0.0.1:5000'  + '/l/' + image_url + '').encode('utf-8')
+    url = (SETTINGS['BASE_URL']  + '/l/' + image_url + '').encode('utf-8')
     RunCmd(['phantomjs', here+'/scripts/rasterize.js', url, '.lambe', here+'/static/raw/' + image_path + '-hi.png'], timeout).Run()
     RunCmd(['phantomjs', here+'/scripts/rasterize.js', url, '.lambe', here+'/static/raw/' + image_path + '-a3.pdf'], timeout).Run()
+    RunCmd(['phantomjs', here+'/scripts/rasterize.js', url, '.lambe', here+'/static/raw/' + image_path + '-a4.pdf'], timeout).Run()
     return image_path + '-hi.png'
 
 @app.route('/')
