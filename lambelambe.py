@@ -4,9 +4,10 @@ import json, math, os, subprocess
 import threading, subprocess
 from urllib2 import quote
 
+here = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
 #tmp-load
-lambes = json.loads(open('transparencia.json', 'r').read())
+lambes = json.loads(open(here+'/static/transparencia.json', 'r').read())
 
 
 class RunCmd(threading.Thread):
@@ -39,8 +40,8 @@ def generate_image(l, timeout):
 
     image_url = quote(image_url.encode('utf-8'))
     url = ('http://127.0.0.1:5000'  + '/l/' + image_url + '').encode('utf-8')
-    RunCmd(['phantomjs', 'scripts/rasterize.js', url, '.lambe', 'static/raw/' + image_path + '-hi.png'], timeout).Run()
-    RunCmd(['phantomjs','scripts/rasterize.js', url, '.lambe', 'static/raw/' + image_path + '-a3.pdf'], timeout).Run()
+    RunCmd(['phantomjs', here+'/scripts/rasterize.js', url, '.lambe', here+'/static/raw/' + image_path + '-hi.png'], timeout).Run()
+    RunCmd(['phantomjs', here+'/scripts/rasterize.js', url, '.lambe', here+'/static/raw/' + image_path + '-a3.pdf'], timeout).Run()
     return image_path + '-hi.png'
 
 @app.route('/')
@@ -143,11 +144,11 @@ def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
         l['razao'] = round(l['a']['valor']/l['b']['valor'],1)
         image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
     
-    if os.path.isfile('static/raw/' + image_path+'-hi.png'):
+    if os.path.isfile(here+'/static/raw/' + image_path+'-hi.png'):
         l['image'] = image_path
     else:
         #pass
-        t = threading.Thread(target=generate_image, args=(l, 10))
+        t = threading.Thread(target=generate_image, args=(l, 3))
         t.start()
         #generate_image(l, 10)
     return render_template('lambe.html', l=l)
