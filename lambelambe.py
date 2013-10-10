@@ -34,7 +34,7 @@ class RunCmd(threading.Thread):
 
 def generate_image(l, timeout):
     image_path = unidecode('-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']]))
-    image_url = '/'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
+    image_url = '/'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']]) + '/raw'
 
     image_url = quote(image_url.encode('utf-8'))
     url = (SETTINGS['BASE_URL']  + '/l/' + image_url + '').encode('utf-8')
@@ -117,6 +117,7 @@ def medida(valor):
     return x
 
 @app.route('/l/<orgao_a>/<estado_a>/<orgao_b>/<estado_b>')
+@app.route('/l/<orgao_a>/<estado_a>/<orgao_b>/<estado_b>/<raw>')
 def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
     orgao_a = unquote(orgao_a)
     estado_a = unquote(estado_a)
@@ -149,10 +150,9 @@ def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
     if os.path.isfile(here+'/static/raw/' + image_path+'-hi.png'):
         l['image'] = image_path
     else:
-        #pass
-        t = threading.Thread(target=generate_image, args=(l, 3))
-        t.start()
-        #generate_image(l, 10)
+        if not raw:
+            t = threading.Thread(target=generate_image, args=(l, 3))
+            t.start()
     return render_template('lambe.html', l=l)
 
 if __name__ == "__main__":
