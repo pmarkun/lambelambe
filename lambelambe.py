@@ -2,7 +2,7 @@
 from flask import Flask, render_template
 import json, math, os, subprocess
 import threading, subprocess
-from urllib2 import quote
+from urllib2 import quote, unquote
 
 here = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
@@ -120,6 +120,11 @@ def medida(valor):
 @app.route('/l/<orgao_a>/<estado_a>/<orgao_b>/<estado_b>')
 @app.route('/l/<orgao_a>/<estado_a>/<orgao_b>/<estado_b>/<raw>')
 def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
+    orgao_a = unquote(orgao_a)
+    estado_a = unquote(estado_a)
+    orgao_b = unquote(orgao_b)
+    estado_b = unquote(estado_b)
+    
     l = {
         'a' : {
             "estado" : estado_a,
