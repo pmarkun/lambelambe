@@ -3,6 +3,7 @@ from flask import Flask, render_template
 import json, math, os, subprocess
 import threading, subprocess
 from urllib2 import quote, unquote
+from unidecode import unidecode
 
 here = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
@@ -31,7 +32,7 @@ class RunCmd(threading.Thread):
 
 
 def generate_image(l, timeout):
-    image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
+    image_path = unidecode('-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']]))
     image_url = '/'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
 
     image_url = quote(image_url.encode('utf-8'))
@@ -138,11 +139,10 @@ def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
         #hackish?
         l['razao'] = round((l['b']['valor']-l['a']['valor'])/l['a']['valor'],1)
         l['razao_g'] = round(l['b']['valor']/l['a']['valor'],1)
-        image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
     else:
         l['proporcao'] = 'mais'
         l['razao'] = round(l['a']['valor']/l['b']['valor'],1)
-        image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
+    image_path = unidecode('-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']]))
     
     if os.path.isfile(here+'/static/raw/' + image_path+'-hi.png'):
         l['image'] = image_path
