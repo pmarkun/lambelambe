@@ -62,7 +62,7 @@ $(document).ready(function () {
         var a = $("#funcao_a").val();
         var b = $("#funcao_b").val();
         var uf = $("#estado_a").val();
-        window.location.href = "/l/"+a+"/"+uf+"/"+b+"/"+uf+"/raw";
+        window.location.href = "{{ url_for('index') }}../l/"+a+"/"+uf+"/"+b+"/"+uf;
     })
 });
 
