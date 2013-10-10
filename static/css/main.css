@@ -25,6 +25,7 @@ body {
 }
 
 .texto {
+    height:200px;
     margin:20px;
     font-size:1.9em;
 }
@@ -69,15 +70,16 @@ body {
 }
 
 .footer {
+    height:80px;
     font-family: 'Legenda';
     padding-left:5px;
     clear:both;
-    text-align: center;
+    text-align: justify;
     font-size:0.9em;
     background-color:#000;
     color:#fff;
 }
-.footer h2 {
+.footer span {
     text-align:left;
 }
 
@@ -102,6 +104,7 @@ body {
     float:left;
 }
 .ground_control select {
+    width:160px;
     margin-bottom:5px;
 }
 

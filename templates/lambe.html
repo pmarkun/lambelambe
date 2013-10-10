@@ -7,17 +7,18 @@
 @font-face {
     font-family: 'Stencil';
     src: url('{{ url_for('static', filename='fonts/major_shift-webfont.eot') }}');
-    src: url('{{ url_for('static', filename='fonts/major_shift-webfont.svg') }}') format('svg');
+    src: url('{{ url_for('static', filename='fonts/major_shift-webfont.woff') }}') format('woff'), url('{{ url_for('static', filename='fonts/major_shift-webfont.svg') }}') format('svg'), url('{{ url_for('static', filename='fonts/major_shift-webfont.ttf') }}') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
-
+    
 @font-face {
     font-family: 'Legenda';
-    src: url('{{ url_for('static', filename='fonts/steelfish_eb.eot') }}');
-    src: url('{{ url_for('static', filename='fonts/steelfish_eb.svg') }}') format('svg');
+    src: url('{{ url_for('static', filename='fonts/OpenSans-Regular-webfont.eot') }}');
+    src: url('{{ url_for('static', filename='fonts/OpenSans-Regular-webfont.woff') }}') format('woff'), url('{{ url_for('static', filename='fonts/OpenSans-Regular-webfont.svg') }}') format('svg'), url('{{ url_for('static', filename='fonts/OpenSans-Regular-webfont.ttf') }}') format('truetype');
     font-weight: normal;
     font-style: normal;
+    font-size: 0.8em;
 }
 </style>
 <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
@@ -97,7 +98,7 @@ $(document).ready(function () {
             {% endif %} 
         </div>
         <div class="footer">
-            <h2>Fonte:<br /> Dados do Portal da Transparência<br />www.portaldatransparencia.gov.br</h2>
+            <span>Fonte: Dados do Portal da Transparência<br />www.portaldatransparencia.gov.br</span>
         </div>
     </div>
     {% endif %}
