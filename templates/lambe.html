@@ -1,5 +1,8 @@
 <!doctype html>
 <title>Lambe Lambe da Transparência</title>
+{% if l %}
+    <meta property="og:image" content="{{ url_for('static', filename='l.image') }}" />
+{% endif %}
 <style>
 @font-face {
     font-family: 'Stencil';
@@ -97,16 +100,31 @@ $(document).ready(function () {
         </div>
     </div>
     {% endif %}
-    <div class="ground_control">
-        <h2>Ground Control</h2>
+   <div class="ground_control">
+        <h1 class="stencil">LambeLambe da Transparência</h1>
+        <p>Selecione um Estado e gere um lambe-lambe comparando duas Funções de Governo.</p>
         <form>
-            <select id="estado_a">
-            </select>
-            <select id="funcao_a">
-            </select>
-            <select id="funcao_b">
-            </select>
-            <button id="enviar">Go!</button>
+            <label for="estado_a">Estado:</label>
+            <select name="estado_a" id="estado_a"></select>
+            <br />
+            <label for="funcao_a">Função A:</label>
+            <select name="funcao_a" id="funcao_a"></select>
+            <br />
+            <label for="funcao_b">Função B:</label>
+            <select name="funcao_b" id="funcao_b"></select>
+            <br />
+            <button id="enviar">Gerar Lambe</button>
         </form>
+        <hr />
+        {% if l.image %}
+        Baixe:
+        <a href="{{url_for('static', filename='raw/'+l.image+'-a3.pdf')}}">a3</a> <a href="{{url_for('static', filename='raw/'+l.image+'-a4.pdf')}}">a4</a> <a href="{{url_for('static', filename='raw/'+l.image+'-hi.png')}}">png</a>
+        <br />
+        {% endif %}
+        <a href="#" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 'facebook-share-dialog', 'width=626,height=436'); return false;">Compartilhe no Facebook</a>
+        <hr />
+        <div class="tiny">
+            <a href="http://github.com/pmarkun/lambelambe">código no github</a>
+        </div>
     </div>
 </div>

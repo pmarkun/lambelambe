@@ -1,10 +1,21 @@
+.container {
+    width:745px;
+    margin:0 auto;
+}
+
 /* Stencil */
+
+body {
+    font-family: 'Legenda';
+}
+
 .stencil {
     font-size: 1.3em;
     font-family: 'Stencil';
 }
 
 .lambe {
+    float:left;
     background-color: #fff;
     height:600px;
     width:400px;
@@ -72,15 +83,63 @@
 
 /* Ground Control */
 .ground_control {
-    position:absolute;
-    top:0;
-    right:0;
-    margin:20px;
+    float:left;
+    margin-left:20px;
     width:250px;
-    height:250px;
-    border:1px solid black;
-}
-
-.ground_control h2 {
+    border:5px solid black;
     padding:10px;
 }
+
+.ground_control h1 {
+    font-size:1.6em;
+    text-align: center;
+}
+
+
+.ground_control label {
+    display:block;
+    width:80px;
+    float:left;
+}
+.ground_control select {
+    margin-bottom:5px;
+}
+
+
+.ground_control button {
+    background:#fff;
+    color:#000;
+    border:1px solid black;
+    margin-left:80px;
+    height:25px;
+    cursor:pointer;
+}
+
+.ground_control a {
+    text-decoration: none;
+    color:#566D7E;
+    font-weight: bold;
+}
+
+.ground_control a:hover {
+    color:#ccc;
+}
+
+.tiny {
+    text-align: center;
+    font-size: 0.8em;
+    width:100%;
+}
+
+/* elements */
+select {
+    padding:3px;
+    margin: 0;
+    background: #fff;
+    color:#000;
+    border:1px solid black;
+    outline:none;
+    display: inline-block;
+    cursor:pointer;
+}
+
