@@ -31,12 +31,8 @@ class RunCmd(threading.Thread):
 
 
 def generate_image(l, timeout):
-    if l['a']['valor'] <= l['b']['valor']:
-        image_path = '-'.join([l['b']['orgao'],l['b']['estado'],l['a']['orgao'],l['a']['estado']])
-        image_url = '/'.join([l['b']['orgao'],l['b']['estado'],l['a']['orgao'],l['a']['estado']])
-    else:
-        image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
-        image_url = '/'.join([l['b']['orgao'],l['b']['estado'],l['a']['orgao'],l['a']['estado']])
+    image_path = '-'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
+    image_url = '/'.join([l['a']['orgao'],l['a']['estado'],l['b']['orgao'],l['b']['estado']])
 
     image_url = quote(image_url.encode('utf-8'))
     url = ('http://127.0.0.1:5000'  + '/l/' + image_url + '').encode('utf-8')
@@ -118,13 +114,12 @@ def medida(valor):
     return x
 
 @app.route('/l/<orgao_a>/<estado_a>/<orgao_b>/<estado_b>')
-@app.route('/l/<orgao_a>/<estado_a>/<orgao_b>/<estado_b>/<raw>')
 def lambe(orgao_a,estado_a,orgao_b,estado_b,raw=False):
     orgao_a = unquote(orgao_a)
     estado_a = unquote(estado_a)
     orgao_b = unquote(orgao_b)
     estado_b = unquote(estado_b)
-    
+
     l = {
         'a' : {
             "estado" : estado_a,

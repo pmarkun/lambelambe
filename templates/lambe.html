@@ -54,9 +54,10 @@ var loadFuncoes = function(id, estado, pre) {
 }
 $(document).ready(function () {
     var url = window.location.href.split('/');
-    loadEstados("estado_a", decodeURIComponent(url[5]));
-    loadFuncoes('funcao_a', $("#estado_a").val(), decodeURIComponent(url[4]));
-    loadFuncoes('funcao_b', $("#estado_a").val(), decodeURIComponent(url[6]));
+    var l = url.indexOf('l');
+    loadEstados("estado_a", decodeURIComponent(url[l+2]));
+    loadFuncoes('funcao_a', $("#estado_a").val(), decodeURIComponent(url[l+1]));
+    loadFuncoes('funcao_b', $("#estado_a").val(), decodeURIComponent(url[l+3]));
     $("#enviar").click(function (evt) {
         evt.preventDefault(evt);
         var a = $("#funcao_a").val();
