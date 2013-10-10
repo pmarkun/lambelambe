@@ -1,0 +1,1 @@
+from lambelambe import app as application
