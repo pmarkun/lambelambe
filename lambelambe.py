@@ -18,7 +18,7 @@ class RunCmd(threading.Thread):
         self.timeout = timeout
 
     def run(self):
-        self.p = subprocess.Popen(self.cmd)
+        self.p = subprocess.Popen(self.cmd, close_fds=True)
         self.p.wait()
 
     def Run(self):
